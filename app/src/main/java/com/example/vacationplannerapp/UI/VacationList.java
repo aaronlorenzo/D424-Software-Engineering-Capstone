@@ -14,9 +14,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.vacationplannerapp.R;
+import com.example.vacationplannerapp.database.Repository;
+import com.example.vacationplannerapp.entities.Excursion;
+import com.example.vacationplannerapp.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class VacationList extends AppCompatActivity {
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +51,55 @@ public class VacationList extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.mysample) {
-            Toast.makeText(VacationList.this, "put in sample data", Toast.LENGTH_LONG).show();
+         /*if (item.getItemId() == R.id.mysample) {
+            repository = new Repository(getApplication());
+            //Toast.makeText(VacationList.this, "Add sample data", Toast.LENGTH_LONG).show();
+            Vacation vacation = new Vacation(
+                    0,
+                    "Italy",
+                    1000.0,
+                    "Holiday Inn",
+                    "12/01/24",
+                    "12/07/24");
+            repository.insert(vacation);
+
+            vacation = new Vacation(
+                    0,
+                    "Germany",
+                    1000.0,
+                    "Marriot Suites",
+                    "02/14/24",
+                    "02/20/24");
+            repository.insert(vacation);
+
+            Excursion excursion = new Excursion(
+                    0,
+                    "Tour",
+                    50.0,
+                    "12/03/24",
+                    "Enter note here",
+                    1);
+            repository.insert(excursion);
+
+            onResume();
             return true;
-        }
+        }*/
+
+        //optional if statement if excursion list is implemented
+        //if implemented, uncomment code in menu_vacation_list
+        /*if (item.getItemId() == R.id.seeExcursions) {
+            //create intent to navigate to the ExcursionList activity
+            Intent intent = new Intent(this, ExcursionList.class);
+
+            //start new activity
+            startActivity(intent);
+
+            //indicate item selection has been handled
+            return true;
+        }*/
+
         if (item.getItemId() == android.R.id.home) {
-            this.finish();
-            //Intent intent=new Intent(ProductList.this,ProductDetails.class);
-            //startActivity(intent);
+            this.finish(); //go back to parent activity
             return true;
         }
         return true;
