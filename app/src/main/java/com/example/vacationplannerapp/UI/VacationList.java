@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class VacationList extends AppCompatActivity {
+
     private Repository repository;
 
     @Override
@@ -42,10 +43,13 @@ public class VacationList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(VacationList.this, VacationDetails.class); //send info to VacationDetails
+
                 startActivity(intent);
             }
         });
+
         RecyclerView recyclerView = findViewById(R.id.vacationRecyclerView);
+
         //query database
         repository = new Repository(getApplication());
         //get list of vacations
@@ -57,6 +61,8 @@ public class VacationList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //put list of vacations on the recycler view using method defined in adapter
         vacationAdapter.setVacations(allVacations);
+
+        //System.out.println(getIntent().getStringExtra("test"));
     }
 
     @Override
@@ -67,7 +73,7 @@ public class VacationList extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-         /*if (item.getItemId() == R.id.mysample) {
+        /*if (item.getItemId() == R.id.sample) {
             repository = new Repository(getApplication());
             //Toast.makeText(VacationList.this, "Add sample data", Toast.LENGTH_LONG).show();
             Vacation vacation = new Vacation(
@@ -120,4 +126,21 @@ public class VacationList extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    protected void onResume() { //refresh vacation list view
+        super.onResume();
+
+        List<Vacation> allVacations = repository.getmAllVacations();
+
+        RecyclerView recyclerView = findViewById(R.id.vacationRecyclerView);
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        vacationAdapter.setVacations(allVacations);
+        vacationAdapter.notifyDataSetChanged();
+        //Toast.makeText(VacationDetails.this,"refresh list",Toast.LENGTH_LONG).show();
+    }
+
 }
