@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +22,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.example.vacationplannerapp.R;
 import com.example.vacationplannerapp.database.Repository;
@@ -289,7 +289,56 @@ public class VacationDetails extends AppCompatActivity {
             startActivity(shareIntent);
             return true;
         }
+        if (item.getItemId()==R.id.vacationstartalert) {
+            String dateFromScreen = vacationStartDate;
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate = null;
 
+            try {
+                myDate = sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Long trigger = myDate.getTime();
+
+            //broadcast receiver sends the notification
+            Intent intent = new Intent(VacationDetails.this, MyReceiver.class); //intent to send
+            intent.setAction("start action");
+            intent.putExtra("start key", vacationName + " starts today!"); //notification message
+            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE); //increments from 0 for the whole app every alert
+            //alarm service wakes up the app to send the notification
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+
+            return true;
+        }
+        if (item.getItemId()==R.id.vacationendalert) {
+            String dateFromScreen = vacationEndDate;
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate = null;
+
+            try {
+                myDate = sdf.parse(dateFromScreen);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Long trigger = myDate.getTime();
+
+            //broadcast receiver sends the notification
+            Intent intent = new Intent(VacationDetails.this, MyReceiver.class); //intent to send
+            intent.setAction("end action");
+            intent.putExtra("end key", vacationName + " ends today!"); //notification message
+            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE); //increments from 0 for the whole app every alert
+            //alarm service wakes up the app to send the notification
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+
+            return true;
+        }
         if (item.getItemId() == android.R.id.home) {
             this.finish(); //go back to parent activity
             return true;
