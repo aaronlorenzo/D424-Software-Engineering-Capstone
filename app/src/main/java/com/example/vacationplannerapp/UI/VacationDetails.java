@@ -124,7 +124,7 @@ public class VacationDetails extends AppCompatActivity {
 
                 //check if after end date
                 if (vStartCalendar.after(vEndCalendar)) {
-                    Toast.makeText(VacationDetails.this, "End date cannot be after end date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VacationDetails.this, "Start date cannot be after end date", Toast.LENGTH_SHORT).show();
                     vStartCalendar.setTime(vEndCalendar.getTime());
                 } else {
                     vacationStartDate = new SimpleDateFormat("MM/dd/yy", Locale.US).format(vStartCalendar.getTime());

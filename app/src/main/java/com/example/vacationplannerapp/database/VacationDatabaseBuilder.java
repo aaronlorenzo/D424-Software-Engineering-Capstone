@@ -13,7 +13,7 @@ import com.example.vacationplannerapp.entities.Excursion;
 import com.example.vacationplannerapp.entities.Vacation;
 
 
-@Database(entities = {Vacation.class, Excursion.class}, version=3, exportSchema = false) //change version number to update db
+@Database(entities = {Vacation.class, Excursion.class}, version=4, exportSchema = false) //change version number to update db
 public abstract class VacationDatabaseBuilder extends RoomDatabase {
 
     public abstract VacationDAO vacationDAO();
