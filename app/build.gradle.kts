@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.example.vacationplannerapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.vacationplannerapp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk= 34
         versionCode = 1
         versionName = "1.0"
 
@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-
+    implementation("com.opencsv:opencsv:5.5.2")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
