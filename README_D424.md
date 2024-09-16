@@ -13,7 +13,7 @@ This mobile application serves as a comprehensive tool for vacation planning and
 
 - **Repository URL:** [View Repository](https://gitlab.com/wgu-gitlab-environment/student-repos/agarrol/d424-software-engineering-capstone/-/tree/task3_development)
 - **Branch History:** ![Final Commit]()
-- **Android Target APK Version:** #35
+- **Android Target APK Version:** #34
 
 ### Setup and Installation
 
