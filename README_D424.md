@@ -12,12 +12,11 @@ This mobile application serves as a comprehensive tool for vacation planning and
 ### GitLab Repository
 
 - **Repository URL:** [View Repository](https://gitlab.com/wgu-gitlab-environment/student-repos/agarrol/d424-software-engineering-capstone/-/tree/task3_development)
-- **Branch History:** ![Final Commit]()
 - **Android Target APK Version:** #34
 
 ### Setup and Installation
 
-1. Clone the repository: `git clone <repository-url>`
+1. Clone the repository: `git clone https://gitlab.com/wgu-gitlab-environment/student-repos/agarrol/d424-software-engineering-capstone.git`
 2. Import the project into Android Studio.
 3. Build and run the application.
 
@@ -45,24 +44,13 @@ This mobile application serves as a comprehensive tool for vacation planning and
 - Developed a user-friendly and functional GUI.
 
 ## Documentation
+The following documents will be uploaded under docs:
 
-### Design Document
-- [Design Document](link-to-design-document)
+[Task 3 Template-Aaron Garro Lorenzo 9-16-2024.docx](docs%2FTask%203%20Template-Aaron%20Garro%20Lorenzo%209-16-2024.docx)
+- Design Document
+- User Guide
+- Test Plan
 
-### User Guide
-- [User Guide for Setup and Maintenance](link-to-setup-guide)
-- [User Guide for Application Usage](link-to-user-guide)
-
-### Hosting Information
-- [Web App Hosting Link](link-to-hosted-web-app) (if applicable)
-
-## Testing
-
-### Test Plan
-- [Test Plan](link-to-test-plan)
-- [Unit Test Scripts](link-to-unit-test-scripts)
-- [Test Results](link-to-test-results)
-- [Summary of Changes](link-to-summary-of-changes)
 
 ## Panopto Video
 
