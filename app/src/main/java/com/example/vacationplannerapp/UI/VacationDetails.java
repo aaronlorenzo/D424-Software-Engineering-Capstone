@@ -227,46 +227,49 @@ public class VacationDetails extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.vacationsave) { //save vacation
-            Vacation vacation;
-            if (vacationID == -1) { //no id returned means vacation doesn't exist
-                if (repository.getmAllVacations().size() == 0) {
-                    vacationID = 1;
-                } else {
-                    vacationID = repository.getmAllVacations().get(repository.getmAllVacations().size() - 1).getVacationID() + 1;
+        if (item.getItemId() == R.id.vacationsave) { // save vacation
+            // Validate input fields before saving
+            if (validateInputs()) {
+                Vacation vacation;
+                if (vacationID == -1) { // no id returned means vacation doesn't exist
+                    if (repository.getmAllVacations().size() == 0) {
+                        vacationID = 1;
+                    } else {
+                        vacationID = repository.getmAllVacations().get(repository.getmAllVacations().size() - 1).getVacationID() + 1;
+                    }
+                    vacation = new Vacation(
+                            vacationID,
+                            editVacationName.getText().toString(),
+                            Double.parseDouble(editVacationPrice.getText().toString()),
+                            editVacationHotel.getText().toString(),
+                            vacationStartDate,
+                            vacationEndDate
+                    );
+                    repository.insert(vacation); // create new vacation
+                    this.finish(); // close and go back after saving
+                } else { // id returned means vacation exists
+                    vacation = new Vacation(
+                            vacationID,
+                            editVacationName.getText().toString(),
+                            Double.parseDouble(editVacationPrice.getText().toString()),
+                            editVacationHotel.getText().toString(),
+                            vacationStartDate,
+                            vacationEndDate
+                    );
+                    repository.update(vacation); // update existing vacation
+                    this.finish(); // close and go back after saving
                 }
-                vacation = new Vacation(
-                        vacationID,
-                        editVacationName.getText().toString(),
-                        Double.parseDouble(editVacationPrice.getText().toString()),
-                        editVacationHotel.getText().toString(),
-                        vacationStartDate,
-                        vacationEndDate
-                );
-                repository.insert(vacation); //create new vacation
-                this.finish(); //close and go back after saving
-            } else { //id returned means vacation exists
-                vacation = new Vacation(
-                        vacationID,
-                        editVacationName.getText().toString(),
-                        Double.parseDouble(editVacationPrice.getText().toString()),
-                        editVacationHotel.getText().toString(),
-                        vacationStartDate,
-                        vacationEndDate
-                );
-                repository.update(vacation); //not insert bc changing an existing vacation
-                this.finish(); //close and go back after saving
             }
         }
         if (item.getItemId() == R.id.vacationdelete) {
             Vacation vacation;
-            List<Excursion> excursions = repository.getAssociatedExcursions(vacationID); //check for associated excursions
-            if (!excursions.isEmpty()) { //if there are associated excursions
-                //alert the user and do nothing
+            List<Excursion> excursions = repository.getAssociatedExcursions(vacationID); // check for associated excursions
+            if (!excursions.isEmpty()) { // if there are associated excursions
+                // alert the user and do nothing
                 Toast.makeText(VacationDetails.this, "Cannot delete a vacation with excursions", Toast.LENGTH_SHORT).show();
-            } else if (vacationID == -1) { //no id returned means vacation doesn't exist yet
-                this.finish(); //do nothing and go back
-            } else { //id returned means vacation exists
+            } else if (vacationID == -1) { // no id returned means vacation doesn't exist yet
+                this.finish(); // do nothing and go back
+            } else { // id returned means vacation exists
                 vacation = new Vacation(
                         vacationID,
                         editVacationName.getText().toString(),
@@ -275,21 +278,21 @@ public class VacationDetails extends AppCompatActivity {
                         vacationStartDate,
                         vacationEndDate
                 );
-                repository.delete(vacation); //not insert bc changing an existing vacation
+                repository.delete(vacation); // delete existing vacation
                 this.finish();
             }
         }
         if (item.getItemId() == R.id.vacationshare) {
             Intent sentIntent = new Intent();
             sentIntent.setAction(Intent.ACTION_SEND);
-            sentIntent.putExtra(Intent.EXTRA_TEXT, editVacationName.getText().toString() + " at " + editVacationHotel.getText().toString() + " starting on " + vacationStartDate + " and ends on" + vacationEndDate + ".");
+            sentIntent.putExtra(Intent.EXTRA_TEXT, editVacationName.getText().toString() + " at " + editVacationHotel.getText().toString() + " starting on " + vacationStartDate + " and ends on " + vacationEndDate + ".");
             sentIntent.putExtra(Intent.EXTRA_TITLE, editVacationName.getText().toString());
             sentIntent.setType("text/plain");
             Intent shareIntent = Intent.createChooser(sentIntent, null);
             startActivity(shareIntent);
             return true;
         }
-        if (item.getItemId()==R.id.vacationstartalert) {
+        if (item.getItemId() == R.id.vacationstartalert) {
             String dateFromScreen = vacationStartDate;
             String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -303,18 +306,19 @@ public class VacationDetails extends AppCompatActivity {
 
             Long trigger = myDate.getTime();
 
-            //broadcast receiver sends the notification
-            Intent intent = new Intent(VacationDetails.this, MyReceiver.class); //intent to send
+            // Broadcast receiver sends the notification
+            Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
             intent.setAction("start action");
-            intent.putExtra("start key", vacationName + " starts today!"); //notification message
-            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE); //increments from 0 for the whole app every alert
-            //alarm service wakes up the app to send the notification
+            intent.putExtra("start key", vacationName + " starts today!");
+            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+
+            // Alarm service wakes up the app to send the notification
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
 
             return true;
         }
-        if (item.getItemId()==R.id.vacationendalert) {
+        if (item.getItemId() == R.id.vacationendalert) {
             String dateFromScreen = vacationEndDate;
             String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -328,19 +332,20 @@ public class VacationDetails extends AppCompatActivity {
 
             Long trigger = myDate.getTime();
 
-            //broadcast receiver sends the notification
-            Intent intent = new Intent(VacationDetails.this, MyReceiver.class); //intent to send
+            // Broadcast receiver sends the notification
+            Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
             intent.setAction("end action");
-            intent.putExtra("end key", vacationName + " ends today!"); //notification message
-            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE); //increments from 0 for the whole app every alert
-            //alarm service wakes up the app to send the notification
+            intent.putExtra("end key", vacationName + " ends today!");
+            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
+
+            // Alarm service wakes up the app to send the notification
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
 
             return true;
         }
         if (item.getItemId() == android.R.id.home) {
-            this.finish(); //go back to parent activity
+            this.finish(); // go back to parent activity
             return true;
         }
         return true;
@@ -348,8 +353,6 @@ public class VacationDetails extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        // Add any code you want to execute when the activity resumes
-        // For example, you can refresh data or update UI components
         super.onResume();
 
         List<Excursion> filteredExcursions = repository.getAssociatedExcursions(vacationID);
@@ -378,5 +381,28 @@ public class VacationDetails extends AppCompatActivity {
 
         vacationEndDate = sdfEnd.format(vEndCalendar.getTime());
         buttonVacationDateEnd.setText(sdfEnd.format(vEndCalendar.getTime()));
+    }
+
+    // Input validation for required fields
+    private boolean validateInputs() {
+        if (editVacationName.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a vacation name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (editVacationHotel.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a hotel name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (editVacationPrice.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter a price", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        try {
+            Double.parseDouble(editVacationPrice.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

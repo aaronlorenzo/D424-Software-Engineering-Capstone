@@ -46,7 +46,8 @@ This mobile application serves as a comprehensive tool for vacation planning and
 ## Documentation
 The following documents will be uploaded under docs:
 
-[Task 3 Template-Aaron Garro Lorenzo 9-16-2024.docx](docs%2FTask%203%20Template-Aaron%20Garro%20Lorenzo%209-16-2024.docx)
+[Task 3 Template-Aaron Garro Lorenzo 9-18-2024.docx](docs/Task%203%20Template-Aaron%20Garro%20Lorenzo%209-18-2024.docx)
+
 - Design Document
 - User Guide
 - Test Plan
@@ -54,7 +55,8 @@ The following documents will be uploaded under docs:
 
 ## Panopto Video
 
-- [Panopto Recording Link](link-to-panopto-recording)
+- [Panopto Recording Link](https://wgu.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=8ed7bbd0-89fa-497d-952a-b1ef015c776f)
+
 
 ## Acknowledgements and Sources
 
