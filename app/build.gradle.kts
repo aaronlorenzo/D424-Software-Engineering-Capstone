@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.vacationplannerapp"
+    namespace = "com.lorenzo.aarongarrovacationplannerapp" // Updated namespace
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.vacationplannerapp"
+        applicationId = "com.lorenzo.aarongarrovacationplannerapp" // Updated applicationId
         minSdk = 24
         targetSdk= 34
         versionCode = 1
